@@ -22,10 +22,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComposePlaygroundTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    ArtSpaceApp()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    ArtSpaceApp(
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }

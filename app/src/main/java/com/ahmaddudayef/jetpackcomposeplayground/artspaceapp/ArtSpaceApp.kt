@@ -8,12 +8,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,7 +40,7 @@ import com.ahmaddudayef.jetpackcomposeplayground.ui.theme.JetpackComposePlaygrou
 import kotlinx.coroutines.delay
 
 @Composable
-fun ArtSpaceApp() {
+fun ArtSpaceApp(modifier: Modifier = Modifier) {
     // Artwork list
     val artworks = listOf(
         Artwork(R.drawable.bridge_image, "Sailing Under the Bridge", "Kat Kuan", 2017),
@@ -52,31 +56,42 @@ fun ArtSpaceApp() {
     var showTooltip by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
             .pointerInput(Unit) {
                 // Detect horizontal drag gestures (swipes)
                 detectHorizontalDragGestures { change, dragAmount ->
                     change.consume() // Consume gesture
                     if (dragAmount > 0) {
                         // Swiped to the right, show previous artwork
-                        currentIndex = if (currentIndex == 0) artworks.size - 1 else currentIndex - 1
+                        currentIndex =
+                            if (currentIndex == 0) artworks.size - 1 else currentIndex - 1
                     } else {
                         // Swiped to the left, show next artwork
-                        currentIndex = if (currentIndex == artworks.size - 1) 0 else currentIndex + 1
+                        currentIndex =
+                            if (currentIndex == artworks.size - 1) 0 else currentIndex + 1
                     }
                 }
             },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        // Section 1: Artwork display
-        ArtworkWall(artwork = currentArtwork)
+        // Inner Column: Artwork display and description
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),  // Allow the image and text to take up as much space as possible
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Section 1: Artwork display
+            ArtworkWall(artwork = currentArtwork, modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f))
 
-        // Section 2: Artwork descriptor (Title, artist, year)
-        ArtworkDescriptor(artwork = currentArtwork)
-
+            // Section 2: Artwork descriptor (Title, artist, year)
+            ArtworkDescriptor(artwork = currentArtwork, modifier = Modifier.fillMaxWidth())
+        }
         // Section 3: Control buttons (Next, Previous)
         DisplayController(
             onPreviousClick = {
@@ -101,48 +116,67 @@ fun ArtSpaceApp() {
 }
 
 @Composable
-fun ArtworkWall(artwork: Artwork) {
-    Surface(
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.padding(16.dp)
+fun ArtworkWall(artwork: Artwork, modifier: Modifier = Modifier) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        ),
+        modifier = modifier.padding(20.dp),
     ) {
         Image(
             painter = painterResource(artwork.imageResId),
             contentDescription = null,  // No description needed
             contentScale = ContentScale.Crop,
-            modifier = Modifier.size(300.dp)
+            modifier = modifier
+                .fillMaxSize()
+                .aspectRatio(1f)
+                .padding(20.dp)
         )
     }
 }
 
 @Composable
-fun ArtworkDescriptor(artwork: Artwork) {
-    Column(
-        modifier = Modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+fun ArtworkDescriptor(artwork: Artwork, modifier: Modifier = Modifier) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        ),
+        modifier = modifier.padding(20.dp),
     ) {
-        Text(
-            text = artwork.title,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Text(
-            text = "by ${artwork.artist}",
-            fontSize = 18.sp,
-            color = Color.Gray,
-        )
-        Text(
-            text = "(${artwork.year})",
-            fontSize = 14.sp,
-            color = Color.Gray
-        )
+        Column(
+            modifier = modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = artwork.title,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = "by ${artwork.artist}",
+                fontSize = 18.sp,
+                color = Color.Gray,
+            )
+            Text(
+                text = "(${artwork.year})",
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+        }
     }
 }
 
 @Composable
-fun DisplayController(onPreviousClick: () -> Unit, onNextClick: () -> Unit, onLongPress: () -> Unit) {
+fun DisplayController(
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
+    onLongPress: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = Modifier.padding(top = 16.dp),
+        modifier = modifier
+            .padding(top = 16.dp)
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -170,7 +204,7 @@ fun DisplayController(onPreviousClick: () -> Unit, onNextClick: () -> Unit, onLo
 }
 
 @Composable
-fun TooltipText(text: String, onDismiss: () -> Unit) {
+fun TooltipText(text: String, modifier: Modifier = Modifier, onDismiss: () -> Unit) {
     // Show tooltip for a few seconds and then dismiss
     LaunchedEffect(Unit) {
         delay(2000)
@@ -178,7 +212,7 @@ fun TooltipText(text: String, onDismiss: () -> Unit) {
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(Color.LightGray)
             .padding(8.dp)
     ) {
