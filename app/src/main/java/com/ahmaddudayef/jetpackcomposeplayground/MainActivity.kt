@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.ahmaddudayef.jetpackcomposeplayground.affirmations.AffirmationApp
 import com.ahmaddudayef.jetpackcomposeplayground.artspaceapp.ArtSpaceApp
 import com.ahmaddudayef.jetpackcomposeplayground.calculatortip.TipTimeLayout
 import com.ahmaddudayef.jetpackcomposeplayground.ui.theme.JetpackComposePlaygroundTheme
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposePlaygroundTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ArtSpaceApp(
+                    AffirmationApp(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
