@@ -6,15 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.ahmaddudayef.jetpackcomposeplayground.affirmations.AffirmationApp
-import com.ahmaddudayef.jetpackcomposeplayground.artspaceapp.ArtSpaceApp
-import com.ahmaddudayef.jetpackcomposeplayground.calculatortip.TipTimeLayout
+import androidx.compose.ui.res.dimensionResource
+import com.ahmaddudayef.jetpackcomposeplayground.topic.TopicGridApp
 import com.ahmaddudayef.jetpackcomposeplayground.ui.theme.JetpackComposePlaygroundTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,9 +20,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComposePlaygroundTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AffirmationApp(
-                        modifier = Modifier.padding(innerPadding)
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .statusBarsPadding(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    TopicGridApp(
+                        modifier = Modifier.padding(
+                            start = dimensionResource(R.dimen.padding_small),
+                            top = dimensionResource(R.dimen.padding_small),
+                            end = dimensionResource(R.dimen.padding_small),
+                        )
                     )
                 }
             }

@@ -1,4 +1,4 @@
-package com.ahmaddudayef.jetpackcomposeplayground.artspaceapp
+package com.ahmaddudayef.jetpackcomposeplayground.artspace
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
