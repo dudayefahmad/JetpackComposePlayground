@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.ahmaddudayef.jetpackcomposeplayground.topic.TopicGridApp
 import com.ahmaddudayef.jetpackcomposeplayground.ui.theme.JetpackComposePlaygroundTheme
+import com.ahmaddudayef.jetpackcomposeplayground.woof.WoofApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,16 +25,8 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .statusBarsPadding(),
-                    color = MaterialTheme.colorScheme.background
                 ) {
-                    TopicGridApp(
-                        modifier = Modifier.padding(
-                            start = dimensionResource(R.dimen.padding_small),
-                            top = dimensionResource(R.dimen.padding_small),
-                            end = dimensionResource(R.dimen.padding_small),
-                        )
-                    )
+                    WoofApp()
                 }
             }
         }
