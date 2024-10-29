@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import com.ahmaddudayef.jetpackcomposeplayground.superheroes.SuperHeroApp
 import com.ahmaddudayef.jetpackcomposeplayground.topic.TopicGridApp
 import com.ahmaddudayef.jetpackcomposeplayground.ui.theme.JetpackComposePlaygroundTheme
 import com.ahmaddudayef.jetpackcomposeplayground.woof.WoofApp
@@ -24,9 +25,10 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    WoofApp()
+                    SuperHeroApp()
                 }
             }
         }

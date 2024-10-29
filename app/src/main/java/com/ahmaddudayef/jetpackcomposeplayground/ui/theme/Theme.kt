@@ -111,7 +111,7 @@ fun JetpackComposePlaygroundTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         shapes = Shapes,
-        typography = Typography,
+        typography = TypographySuperhero,
         content = content
     )
 }
